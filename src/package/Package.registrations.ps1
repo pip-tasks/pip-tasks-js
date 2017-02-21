@@ -12,6 +12,9 @@ $npmtasks = "$PSScriptRoot/Npm.tasks.ps1"
 Register-ImperativeInclude -CallFile $npmtasks -Component
 
 # Registrations for declarative tasks
+Register-DeclarativeTask -Task GetVersion -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmGetVersion -Component
+Register-DeclarativeTask -Task SetVersion -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmSetVersion -Component
+Register-DeclarativeTask -Task GetDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmGetDep -Component
 Register-DeclarativeTask -Task CleanDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmCleanDep -Component
 Register-DeclarativeTask -Task RestoreDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmRestoreDep -Component
 Register-DeclarativeTask -Task UpdateDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmUpdateDep -Component
@@ -23,6 +26,9 @@ $bwtasks = "$PSScriptRoot/Bower.tasks.ps1"
 Register-ImperativeInclude -CallFile $bwtasks -Component
 
 # Registrations for declarative tasks
+Register-DeclarativeTask -Task GetVersion -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerGetVersion -Component
+Register-DeclarativeTask -Task SetVersion -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerSetVersion -Component
+Register-DeclarativeTask -Task GetDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerGetDep -Component
 Register-DeclarativeTask -Task CleanDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerCleanDep -Component
 Register-DeclarativeTask -Task RestoreDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerRestoreDep -Component
 Register-DeclarativeTask -Task UpdateDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerUpdateDep -Component

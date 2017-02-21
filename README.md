@@ -3,14 +3,20 @@
 This Powershell module brings tasks for Pip.Tasks to build Javascript and Node.js components
 
 **NPM** tasks turned on by property **$Package = 'npm'**
+* **GetVersion** - gets version of NPM project
+* **SetVersion** - sets version of NPM project
+* **GetDep** - gets NPM dependencies
 * **CleanDep** - cleans packages with NPM dependencies
-* **RestoreDep** - downloads NPM packages references by projects 
-* **UpdateDep** - updates selected package or all packages from specified source to the latest compatible version
+* **RestoreDep** - downloads NPM dependencies 
+* **UpdateDep** - updates dependency to specified version
 
 **Bower** tasks turned on by property **$Package = 'bower'**
+* **GetVersion** - gets version of Bower project
+* **SetVersion** - sets version of Bower project
+* **GetDep** - gets Bower dependencies
 * **CleanDep** - cleans packages with Bower dependencies
-* **RestoreDep** - downloads Bower packages references by projects 
-* **UpdateDep** - updates selected package or all packages from specified source to the latest compatible version
+* **RestoreDep** - downloads Bower dependencies
+* **UpdateDep** - updates dependency to specified version
 
 **Gulp** tasks turned on by property **$Build = 'gulp'** and **$Run = 'gulp'**
 * **Clean** - cleans projects with Gulp (gulp clean)

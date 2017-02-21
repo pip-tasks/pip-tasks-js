@@ -6,6 +6,152 @@
 ##
 #######################################################
 
+function Get-BowerVersion
+{
+<#
+.SYNOPSIS
+
+Gets version of Bower project
+
+.DESCRIPTION
+
+Get-BowerVersion gets version of Bower project
+
+.PARAMETER Path
+
+Path to Bower project (default: .)
+
+.EXAMPLE
+
+PS> Get-BowerVersion -Path .
+
+#>
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
+        [string] $Path = '.'
+    )
+    begin {}
+    process 
+    {
+        Invoke-At $Path {
+            if (Test-Path -Path bower.json)
+            {
+                $pkg = Get-Content -Path bower.json | ConvertFrom-Json
+                Write-Output $pkg.version
+            }
+        }
+    }
+    end {}
+}
+
+
+function Set-BowerVersion
+{
+<#
+.SYNOPSIS
+
+Sets version of Bower project
+
+.DESCRIPTION
+
+Set-BowerVersion sets version of Bower project
+
+.PARAMETER Path
+
+Path to Bower project (default: .)
+
+.PARAMETER Version
+
+New version of the Bower project
+
+.EXAMPLE
+
+PS> Get-BowerVersion -Path .
+
+#>    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
+        [string] $Path = '.',
+        [Parameter(Mandatory=$true, Position=1, ValueFromPipelineByPropertyName=$true)]
+        [string] $Version
+    )
+    begin {}
+    process 
+    {
+        Invoke-At $Path {
+            if (Test-Path -Path bower.json)
+            {
+                $pkg = Get-Content -Path bower.json | ConvertFrom-Json
+                $pkg.version = $Version
+                $pkg | ConvertTo-Json | Set-Content -Path bower.json2
+            }
+        }
+    }
+    end {}
+}
+
+
+function Get-BowerDependencies
+{
+<#
+.SYNOPSIS
+
+Gets all Bower dependencies
+
+.DESCRIPTION
+
+Get-BowerDependencies gets all Bower dependencies and their versions
+
+.PARAMETER Path
+
+Path to Bower project (default: .)
+
+.EXAMPLE
+
+PS> Get-BowerDependencies -Path .
+
+#>
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
+        [string] $Path = '.'
+    )
+    begin {}
+    process 
+    {
+        Invoke-At $Path {
+            if (Test-Path -Path bower.json)
+            {
+                $pkg = Get-Content -Path bower.json | ConvertFrom-Json
+
+                $deps = @{}
+
+                $ds = ConvertTo-Hashtable -InputObject $pkg.dependencies
+                foreach ($d in $ds.Keys)
+                {
+                    $dep = $d + '@' + $ds[$d]
+                    $deps[$dep] = $dep
+                }
+
+                $ds = ConvertTo-Hashtable -InputObject $pkg.devDependencies
+                foreach ($d in $ds.Keys)
+                {
+                    $dep = $d + '@' + $ds[$d]
+                    $deps[$dep] = $dep
+                }
+
+                $deps.Keys | Sort-Object | Write-Output
+            }
+        }
+    }
+    end {}
+}
+
+
 function Clear-BowerDependencies
 {
 <#
@@ -93,7 +239,7 @@ Updates version of Bower dependency
 
 .DESCRIPTION
 
-Update-BowerDependency updates versions of Bower dependency(s) specified by name or source
+Update-BowerDependency updates version of Bower dependency
 
 .PARAMETER Path
 
@@ -117,7 +263,7 @@ PS> Update-BowerDependency -Path . -Dependency pip-webui-all -Version 1.5.*
     (
         [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
         [string] $Path = '.',
-        [Parameter(Mandatory=$false, Position=1, ValueFromPipelineByPropertyName=$true)]
+        [Parameter(Mandatory=$true, Position=1, ValueFromPipelineByPropertyName=$true)]
         [string] $Dependency,
         [Parameter(Mandatory=$false, Position=2, ValueFromPipelineByPropertyName=$true)]
         [string] $Version
@@ -128,25 +274,39 @@ PS> Update-BowerDependency -Path . -Dependency pip-webui-all -Version 1.5.*
         if ($Dependency -eq $null -or $Dependency -eq '') { return }
         if ($Dependency.Contains('@'))
         {
-            $pos = $Dependency.IndexOf('@')
+            $pos = $Dependency.LastIndexOf('@')
             $Dependency = $Dependency.Substring(0, $pos)
             $Version = $Dependency.Substring($pos + 1)
         }
-        
+
         Invoke-At $Path {
-            # Update all dependencies from specified source
-            if ($Dependency -eq $null -or $Dependency -eq '')
-            {                        
-                Invoke-External { 
-                    & bower update --save
-                } "Failed to update bower dependencies"
-            }
-            # Update specific dependency if it exists
-            else 
+            if (Test-Path -Path bower.json)
             {
-                Invoke-External { 
-                    & bower update $Dependency --save
-                } "Failed to update bower dependency"
+                $pkg = Get-Content -Path bower.json | ConvertFrom-Json
+
+                $ds = ConvertTo-Hashtable -InputObject $pkg.dependencies
+                foreach ($d in $ds.Keys)
+                {
+                    if ($d.Contains($Dependency))
+                    {
+                        Write-Host "Updated $d to version $Version"
+                        
+                        $pkg.dependencies.$d = $Version
+                    }
+                }
+
+                $ds = ConvertTo-Hashtable -InputObject $pkg.devDependencies
+                foreach ($d in $ds.Keys)
+                {
+                    if ($d.Contains($Dependency))
+                    {
+                        Write-Host "Updated $d to version $Version"
+                        
+                        $pkg.devDependencies.$d = $Version
+                    }
+                }
+
+                ConvertTo-Json -InputObject $pkg | Set-Content -Path bower.json
             }
         }
     }

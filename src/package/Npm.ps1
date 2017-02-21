@@ -6,6 +6,152 @@
 ##
 #######################################################
 
+function Get-NpmVersion
+{
+<#
+.SYNOPSIS
+
+Gets version of Npm project
+
+.DESCRIPTION
+
+Get-NpmVersion gets version of Npm project
+
+.PARAMETER Path
+
+Path to Npm project (default: .)
+
+.EXAMPLE
+
+PS> Get-NpmVersion -Path .
+
+#>
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
+        [string] $Path = '.'
+    )
+    begin {}
+    process 
+    {
+        Invoke-At $Path {
+            if (Test-Path -Path package.json)
+            {
+                $pkg = Get-Content -Path package.json | ConvertFrom-Json
+                Write-Output $pkg.version
+            }
+        }
+    }
+    end {}
+}
+
+
+function Set-NpmVersion
+{
+<#
+.SYNOPSIS
+
+Sets version of Npm project
+
+.DESCRIPTION
+
+Set-NpmVersion sets version of Npm project
+
+.PARAMETER Path
+
+Path to Npm project (default: .)
+
+.PARAMETER Version
+
+New version of the Npm project
+
+.EXAMPLE
+
+PS> Get-NpmVersion -Path .
+
+#>    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
+        [string] $Path = '.',
+        [Parameter(Mandatory=$true, Position=1, ValueFromPipelineByPropertyName=$true)]
+        [string] $Version
+    )
+    begin {}
+    process 
+    {
+        Invoke-At $Path {
+            if (Test-Path -Path package.json)
+            {
+                $pkg = Get-Content -Path package.json | ConvertFrom-Json
+                $pkg.version = $Version
+                $pkg | ConvertTo-Json | Set-Content -Path package.json2
+            }
+        }
+    }
+    end {}
+}
+
+
+function Get-NpmDependencies
+{
+<#
+.SYNOPSIS
+
+Gets all Npm dependencies
+
+.DESCRIPTION
+
+Get-NpmDependencies gets all Npm dependencies and their versions
+
+.PARAMETER Path
+
+Path to Npm project (default: .)
+
+.EXAMPLE
+
+PS> Get-NpmDependencies -Path .
+
+#>
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
+        [string] $Path = '.'
+    )
+    begin {}
+    process 
+    {
+        Invoke-At $Path {
+            if (Test-Path -Path package.json)
+            {
+                $pkg = Get-Content -Path package.json | ConvertFrom-Json
+
+                $deps = @{}
+
+                $ds = ConvertTo-Hashtable -InputObject $pkg.dependencies
+                foreach ($d in $ds.Keys)
+                {
+                    $dep = $d + '@' + $ds[$d]
+                    $deps[$dep] = $dep
+                }
+
+                $ds = ConvertTo-Hashtable -InputObject $pkg.devDependencies
+                foreach ($d in $ds.Keys)
+                {
+                    $dep = $d + '@' + $ds[$d]
+                    $deps[$dep] = $dep
+                }
+
+                $deps.Keys | Sort-Object | Write-Output
+            }
+        }
+    }
+    end {}
+}
+
+
 function Clear-NpmDependencies
 {
 <#
@@ -89,11 +235,11 @@ function Update-NpmDependency
 <#
 .SYNOPSIS
 
-Updates version of Npm package or dependencies
+Updates version of Npm dependency
 
 .DESCRIPTION
 
-Update-NpmDependency updates versions of Npm package(s) specified by name or source
+Update-NpmDependency updates version of Npm dependency
 
 .PARAMETER Path
 
@@ -103,9 +249,13 @@ Path to Npm project (default: .)
 
 Dependency name
 
+.PARAMETER Version
+
+Dependency version
+
 .EXAMPLE
 
-PS> Update-NpmDependency -Path . -Dependency pip-webui-all@1.5.*
+PS> Update-NpmDependency -Path . -Dependency pip-webui-all -Version 1.5.*
 
 #>
     [CmdletBinding()]
@@ -113,26 +263,50 @@ PS> Update-NpmDependency -Path . -Dependency pip-webui-all@1.5.*
     (
         [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
         [string] $Path = '.',
-        [Parameter(Mandatory=$false, Position=1, ValueFromPipelineByPropertyName=$true)]
-        [string[]] $Dependency = @()
+        [Parameter(Mandatory=$true, Position=1, ValueFromPipelineByPropertyName=$true)]
+        [string] $Dependency,
+        [Parameter(Mandatory=$false, Position=2, ValueFromPipelineByPropertyName=$true)]
+        [string] $Version
     )
     begin {}
     process 
     {
+        if ($Dependency -eq $null -or $Dependency -eq '') { return }
+        if ($Dependency.Contains('@'))
+        {
+            $pos = $Dependency.LastIndexOf('@')
+            $Dependency = $Dependency.Substring(0, $pos)
+            $Version = $Dependency.Substring($pos + 1)
+        }
+
         Invoke-At $Path {
-            # Update all dependencies from specified source
-            if ($Dependency -eq $null -or $Dependency.Count -eq 0)
-            {                        
-                Invoke-External { 
-                    & npm update --save
-                } "Failed to update npm dependencies"
-            }
-            # Update specific dependency if it exists
-            else 
+            if (Test-Path -Path package.json)
             {
-                Invoke-External { 
-                    & npm update $Dependency --save
-                } "Failed to update npm package"
+                $pkg = Get-Content -Path package.json | ConvertFrom-Json
+
+                $ds = ConvertTo-Hashtable -InputObject $pkg.dependencies
+                foreach ($d in $ds.Keys)
+                {
+                    if ($d.Contains($Dependency))
+                    {
+                        Write-Host "Updated $d to version $Version"
+                        
+                        $pkg.dependencies.$d = $Version
+                    }
+                }
+
+                $ds = ConvertTo-Hashtable -InputObject $pkg.devDependencies
+                foreach ($d in $ds.Keys)
+                {
+                    if ($d.Contains($Dependency))
+                    {
+                        Write-Host "Updated $d to version $Version"
+                        
+                        $pkg.devDependencies.$d = $Version
+                    }
+                }
+
+                ConvertTo-Json -InputObject $pkg | Set-Content -Path package.json
             }
         }
     }
