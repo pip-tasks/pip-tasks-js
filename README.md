@@ -9,10 +9,13 @@ NPM package definition is defined by **package.json** file in the root folder of
 NPM tasks:
 * **GetVersion** - gets version of NPM project
 * **SetVersion** - sets version of NPM project
+  - **Version** - version parameter
 * **GetDep** - gets NPM dependencies
 * **CleanDep** - cleans packages with NPM dependencies
 * **RestoreDep** - downloads NPM dependencies 
 * **UpdateDep** - updates dependency to specified version
+  - **Dependency** - dependency name parameter
+  - **Version** - dependency version parameter
 * **Publish** - publishes NPM package to global repository
 
 NPM configuration variables:
@@ -25,10 +28,13 @@ Bower package definition is defined by **bower.json** file in the root folder of
 Bower tasks:
 * **GetVersion** - gets version of Bower project
 * **SetVersion** - sets version of Bower project
+  - **Version** - version parameter
 * **GetDep** - gets Bower dependencies
 * **CleanDep** - cleans packages with Bower dependencies
 * **RestoreDep** - downloads Bower dependencies
 * **UpdateDep** - updates dependency to specified version
+  - **Dependency** - dependency name parameter
+  - **Version** - dependency version parameter
 
 Bower configuration variables:
 * **Package** - Turns on Bower tasks (must be 'bower')
