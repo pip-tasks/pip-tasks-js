@@ -191,7 +191,7 @@ PS> Clear-BowerDependencies -Path .
     end {}
 }
 
-function Restore-BowerDependencies
+function Install-BowerDependencies
 {
 <#
 .SYNOPSIS
@@ -200,7 +200,7 @@ Installs Bower dependencies
 
 .DESCRIPTION
 
-Restore-BowerDependencies installs Bower dependencies
+Install-BowerDependencies installs Bower dependencies
 
 .PARAMETER Path
 
@@ -208,7 +208,7 @@ Path to Bower project (default: .)
 
 .EXAMPLE
 
-PS> Restore-BowerDependencies -Path .
+PS> Install-BowerDependencies -Path .
 
 #>
     [CmdletBinding()]

@@ -26,14 +26,9 @@ task NpmGetDep {
     Get-NpmDependencies -Path .
 }
 
-# Synopsis: Clears Npm dependencies
-task NpmCleanDep {
-    Clear-NpmDependencies -Path .
-}
-
-# Synopsis: Restore Npm dependencies
-task NpmRestoreDep {
-    Restore-NpmDependencies -Path .
+# Synopsis: Install Npm dependencies
+task NpmInstallDep {
+    Install-NpmDependencies -Path .
 }
 
 # Synopsis: Update Npm dependency
@@ -42,6 +37,11 @@ task NpmUpdateDep {
     assert ($Version -ne $null -or $Dependency.Contains('@')) "Version is not set"
 
     Update-NpmDependency -Path . -Dependency $Dependency -Version $Version
+}
+
+# Synopsis: Clears Npm dependencies
+task NpmCleanDep {
+    Clear-NpmDependencies -Path .
 }
 
 # Synopsis: Publishes Npm package

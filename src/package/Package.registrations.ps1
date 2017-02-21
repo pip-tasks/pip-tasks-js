@@ -16,7 +16,7 @@ Register-DeclarativeTask -Task GetVersion -Variable Package -Value npm -CallFile
 Register-DeclarativeTask -Task SetVersion -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmSetVersion -Component
 Register-DeclarativeTask -Task GetDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmGetDep -Component
 Register-DeclarativeTask -Task CleanDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmCleanDep -Component
-Register-DeclarativeTask -Task RestoreDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmRestoreDep -Component
+Register-DeclarativeTask -Task InstallDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmInstallDep -Component
 Register-DeclarativeTask -Task UpdateDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmUpdateDep -Component
 Register-DeclarativeTask -Task Publish -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmPublish -Component
 
@@ -31,5 +31,5 @@ Register-DeclarativeTask -Task GetVersion -Variable Package -Value bower -CallFi
 Register-DeclarativeTask -Task SetVersion -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerSetVersion -Component
 Register-DeclarativeTask -Task GetDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerGetDep -Component
 Register-DeclarativeTask -Task CleanDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerCleanDep -Component
-Register-DeclarativeTask -Task RestoreDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerRestoreDep -Component
+Register-DeclarativeTask -Task InstallDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerInstallDep -Component
 Register-DeclarativeTask -Task UpdateDep -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerUpdateDep -Component

@@ -11,11 +11,11 @@ NPM tasks:
 * **SetVersion** - sets version of NPM project
   - **Version** - version parameter
 * **GetDep** - gets NPM dependencies
-* **CleanDep** - cleans packages with NPM dependencies
-* **RestoreDep** - downloads NPM dependencies 
+* **InstallDep** - downloads NPM dependencies 
 * **UpdateDep** - updates dependency to specified version
   - **Dependency** - dependency name parameter
   - **Version** - dependency version parameter
+* **CleanDep** - cleans packages with NPM dependencies
 * **Publish** - publishes NPM package to global repository
 
 NPM configuration variables:
@@ -30,11 +30,11 @@ Bower tasks:
 * **SetVersion** - sets version of Bower project
   - **Version** - version parameter
 * **GetDep** - gets Bower dependencies
-* **CleanDep** - cleans packages with Bower dependencies
-* **RestoreDep** - downloads Bower dependencies
+* **InstallDep** - downloads Bower dependencies
 * **UpdateDep** - updates dependency to specified version
   - **Dependency** - dependency name parameter
   - **Version** - dependency version parameter
+* **CleanDep** - cleans packages with Bower dependencies
 
 Bower configuration variables:
 * **Package** - Turns on Bower tasks (must be 'bower')
@@ -127,7 +127,7 @@ A typical scenario to work with this component may include the following steps:
 
 * Install npm packages
 ```powershell
-> Invoke-Task -Task RestoreDep -Component component1
+> Invoke-Task -Task InstallDep -Component component1
 ```
 
 * Compile component with Typescript

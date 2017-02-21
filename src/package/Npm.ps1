@@ -191,7 +191,7 @@ PS> Clear-NpmDependencies -Path .
     end {}
 }
 
-function Restore-NpmDependencies
+function Install-NpmDependencies
 {
 <#
 .SYNOPSIS
@@ -200,7 +200,7 @@ Installs Npm dependencies
 
 .DESCRIPTION
 
-Restore-NpmDependencies installs Npm dependencies
+Install-NpmDependencies installs Npm dependencies
 
 .PARAMETER Path
 
@@ -208,7 +208,7 @@ Path to Npm project (default: .)
 
 .EXAMPLE
 
-PS> Restore-NpmDependencies -Path .
+PS> Install-NpmDependencies -Path .
 
 #>
     [CmdletBinding()]

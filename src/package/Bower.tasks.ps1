@@ -31,9 +31,9 @@ task BowerCleanDep {
     Clear-BowerDependencies -Path .
 }
 
-# Synopsis: Restore nuget dependencies
-task BowerRestoreDep {
-    Restore-BowerDependencies -Path .
+# Synopsis: Install nuget dependencies
+task BowerInstallDep {
+    Install-BowerDependencies -Path .
 }
 
 # Synopsis: Update nuget dependency
