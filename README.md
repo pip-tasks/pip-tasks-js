@@ -2,6 +2,8 @@
 
 This Powershell module brings tasks for Pip.Tasks to build Javascript and Node.js components
 
+### NPM package management tasks
+
 **NPM** tasks turned on by variable **$Package = 'npm'**. 
 NPM package definition is defined by **package.json** file in the root folder of the component.
 * **GetVersion** - gets version of NPM project
@@ -12,6 +14,8 @@ NPM package definition is defined by **package.json** file in the root folder of
 * **UpdateDep** - updates dependency to specified version
 * **Publish** - publishes NPM package
 
+### Bower package management tasks
+
 **Bower** tasks turned on by variable **$Package = 'bower'**.
 Bower package definition is defined by **bower.json** file in the root folder of the component.
 * **GetVersion** - gets version of Bower project
@@ -21,6 +25,8 @@ Bower package definition is defined by **bower.json** file in the root folder of
 * **RestoreDep** - downloads Bower dependencies
 * **UpdateDep** - updates dependency to specified version
 
+### Guil build and run tasks
+
 **Gulp** tasks turned on by variable **$Build = 'gulp'** and **$Run = 'gulp'**.
 Gulp tasks are defined in **gulpfile.js** file in the root folder of the component.
 * **Clean** - cleans projects with Gulp (gulp clean)
@@ -29,6 +35,8 @@ Gulp tasks are defined in **gulpfile.js** file in the root folder of the compone
 * **Watch** - watches for changes in projects and builds them with Gulp (gulp watch)
 * **Start** - runs projects with Gulp (gulp launch)
 
+### Typescript build tasks
+
 **Typescript** tasks turned on by variable **$Build = 'typescript'**.
 Typescript compiler configuration it defined by **tsconfig.json** file in the root folder of the component.
 * **Clean** - cleans projects with Typscript (output path defined in tsconfig.json)
@@ -36,8 +44,11 @@ Typescript compiler configuration it defined by **tsconfig.json** file in the ro
 * **Rebuild** - rebuilds projects with Typescript (combination of Clean and Build)
 * **Watch** - watches for changes in projects and builds them with Typescript (tsc --watch)
 
-**Mocha** tasks turned on by property **$Test = 'mocha'**.
+### Mocha test tasks
+
+**Mocha** tasks turned on by variable **$Test = 'mocha'**.
 * **Test** - runs Mocha tests
+
 Mocha build tasks support the following configuration variables:
 * **TestInclude** - Folder or list of folders there Mocha tests are located
 * **TestStyle** - Mocha test style: tdd or bdd
@@ -51,7 +62,7 @@ Mocha build tasks support the following configuration variables:
 
 ## Usage
 
-Let's say you have Node.js component, implemented in Typescript and tested with Mocha.
+Let's say you have a Node.js component, implemented in Typescript and tested with Mocha.
 
 The file structure may look the following:
 ```bash
@@ -67,7 +78,7 @@ The file structure may look the following:
     tsconfig.json
 ```
 
-**component.conf.ps1** content:
+**component.conf.ps1** file:
 ```powershell
 $VersionControl = 'git'
 $Package = 'npm'
@@ -83,7 +94,7 @@ $Deploy = 'none'
 $Run = 'none'
 ```
 
-Typical scenario to work with this component includes the following steps:
+A typical scenario to work with this component may include the following steps:
 
 * Pull changes from Git repository
 ```powershell
