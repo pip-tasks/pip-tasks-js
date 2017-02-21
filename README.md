@@ -9,6 +9,7 @@ This Powershell module brings tasks for Pip.Tasks to build Javascript and Node.j
 * **CleanDep** - cleans packages with NPM dependencies
 * **RestoreDep** - downloads NPM dependencies 
 * **UpdateDep** - updates dependency to specified version
+* **Publish** - publishes NPM package
 
 **Bower** tasks turned on by property **$Package = 'bower'**
 * **GetVersion** - gets version of Bower project

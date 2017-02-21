@@ -312,3 +312,46 @@ PS> Update-NpmDependency -Path . -Dependency pip-webui-all -Version 1.5.*
     }
     end {}
 }
+
+
+function Publish-Npm
+{
+<#
+.SYNOPSIS
+
+Publishes Npm package
+
+.DESCRIPTION
+
+Publish-Npm publishes Npm package
+
+.PARAMETER Path
+
+Path to Npm project (default: .)
+
+.EXAMPLE
+
+PS> Publish-Npm -Path .
+
+#>
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
+        [string] $Path = '.'
+    )
+    begin {}
+    process 
+    {
+        Invoke-At $Path {
+            Invoke-External { 
+                & npm login
+            } "Failed to login to npm"
+
+            Invoke-External { 
+                & npm publish
+            } "Failed to publish to npm"
+        }
+    }
+    end {}
+}

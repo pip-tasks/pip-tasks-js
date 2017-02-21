@@ -18,6 +18,7 @@ Register-DeclarativeTask -Task GetDep -Variable Package -Value npm -CallFile $np
 Register-DeclarativeTask -Task CleanDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmCleanDep -Component
 Register-DeclarativeTask -Task RestoreDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmRestoreDep -Component
 Register-DeclarativeTask -Task UpdateDep -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmUpdateDep -Component
+Register-DeclarativeTask -Task Publish -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmPublish -Component
 
 
 $bwtasks = "$PSScriptRoot/Bower.tasks.ps1"
