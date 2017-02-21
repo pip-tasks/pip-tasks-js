@@ -2,7 +2,8 @@
 
 This Powershell module brings tasks for Pip.Tasks to build Javascript and Node.js components
 
-**NPM** tasks turned on by property **$Package = 'npm'**
+**NPM** tasks turned on by variable **$Package = 'npm'**. 
+NPM package definition is defined by **package.json** file in the root folder of the component.
 * **GetVersion** - gets version of NPM project
 * **SetVersion** - sets version of NPM project
 * **GetDep** - gets NPM dependencies
@@ -11,7 +12,8 @@ This Powershell module brings tasks for Pip.Tasks to build Javascript and Node.j
 * **UpdateDep** - updates dependency to specified version
 * **Publish** - publishes NPM package
 
-**Bower** tasks turned on by property **$Package = 'bower'**
+**Bower** tasks turned on by variable **$Package = 'bower'**.
+Bower package definition is defined by **bower.json** file in the root folder of the component.
 * **GetVersion** - gets version of Bower project
 * **SetVersion** - sets version of Bower project
 * **GetDep** - gets Bower dependencies
@@ -19,21 +21,27 @@ This Powershell module brings tasks for Pip.Tasks to build Javascript and Node.j
 * **RestoreDep** - downloads Bower dependencies
 * **UpdateDep** - updates dependency to specified version
 
-**Gulp** tasks turned on by property **$Build = 'gulp'** and **$Run = 'gulp'**
+**Gulp** tasks turned on by variable **$Build = 'gulp'** and **$Run = 'gulp'**.
+Gulp tasks are defined in **gulpfile.js** file in the root folder of the component.
 * **Clean** - cleans projects with Gulp (gulp clean)
 * **Build** - builds projects  with Gulp (gulp clean)
 * **Rebuild** - rebuilds projects with Gulp (gulp rebuild)
 * **Watch** - watches for changes in projects and builds them with Gulp (gulp watch)
 * **Start** - runs projects with Gulp (gulp launch)
 
-**Typescript** tasks turned on by property **$Build = 'typescript'**
+**Typescript** tasks turned on by variable **$Build = 'typescript'**.
+Typescript compiler configuration it defined by **tsconfig.json** file in the root folder of the component.
 * **Clean** - cleans projects with Typscript (output path defined in tsconfig.json)
 * **Build** - builds projects  with Typescript (tsc)
 * **Rebuild** - rebuilds projects with Typescript (combination of Clean and Build)
 * **Watch** - watches for changes in projects and builds them with Typescript (tsc --watch)
 
-**Mocha** tasks turned on by property **$Build = 'mocha'**
+**Mocha** tasks turned on by property **$Test = 'mocha'**.
 * **Test** - runs Mocha tests
+Mocha build tasks support the following configuration variables:
+* **TestInclude** - Folder or list of folders there Mocha tests are located
+* **TestStyle** - Mocha test style: tdd or bdd
+* **TestTimeout** - Timeout in milliseconds for each test to complete (default: 10000)
 
 ## Installation
 
@@ -43,7 +51,88 @@ This Powershell module brings tasks for Pip.Tasks to build Javascript and Node.j
 
 ## Usage
 
-TBD...
+Let's say you have Node.js component, implemented in Typescript and tested with Mocha.
+
+The file structure may look the following:
+```bash
+/workspace
+  ...
+  /component1
+    /node_modules
+    /obj
+    /src
+    /test
+    component.conf.ps1
+    package.json
+    tsconfig.json
+```
+
+**component.conf.ps1** content:
+```powershell
+$VersionControl = 'git'
+$Package = 'npm'
+$Build = 'typescript'
+$Document = 'none'
+
+$Test = 'mocha'
+$TestInclude = './obj/test'
+$TestTimeout = 10000
+$TestStyle = 'tdd'
+
+$Deploy = 'none'
+$Run = 'none'
+```
+
+Typical scenario to work with this component includes the following steps:
+
+* Pull changes from Git repository
+```powershell
+> Invoke-Task -Task Pull -Component component1
+```
+
+* Install npm packages
+```powershell
+> Invoke-Task -Task RestoreDep -Component component1
+```
+
+* Compile component with Typescript
+```powershell
+> Invoke-Task -Task Rebuild -Component component1
+```
+
+* Test component with Mocha
+```powershell
+> Invoke-Task -Task Test -Component component1
+```
+
+* Change version of external dependency
+```powershell
+> Invoke-Task -Task UpdateDep -Dependency component2 -Version 1.2.0 -Component component1
+```
+
+* Set new version for the component and push changes to Git repository
+```powershell
+> Invoke-Task -Task SetVersion -Version 1.0.1 -Component component1
+> Invoke-Task -Task Push -Message "My changes" -Component component1
+```
+
+* Set tag to Git repository and publish public release
+```powershell
+> Invoke-Task -Task SetTag v1.0.1 -Component component1
+> Invoke-Task -Task Publish -Component component1
+```
+
+Instead of typing full Powershell command 
+```powershell
+> Invoke-Task -Task getchanges -Component component1
+```
+you can use shortcuts like:
+```powershell
+> piptask getchanges
+```
+
+For more information about **Pip.Tasks** build infrastructure read documentation 
+from the master project [here...](https://github.com/pip-tasks/pip-tasks-ps)
 
 ## Acknowledgements
 
