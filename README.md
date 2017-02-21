@@ -1,23 +1,28 @@
 # <img src="https://github.com/pip-tasks/pip-tasks-ps/raw/master/artifacts/logo.png" alt="Pip.Devs Logo" style="max-width:30%"> <br/> Javascript and Node.js build tasks for Pip.Tasks
 
-This Powershell module brings tasks for Pip.Tasks to build Javascript and Node.js components
+This Powershell module contains tasks for [Pip.Tasks](https://github.com/pip-tasks/pip-tasks-ps) to build Javascript and Node.js components
 
 ### NPM package management tasks
 
-**NPM** tasks turned on by variable **$Package = 'npm'**. 
 NPM package definition is defined by **package.json** file in the root folder of the component.
+
+NPM tasks:
 * **GetVersion** - gets version of NPM project
 * **SetVersion** - sets version of NPM project
 * **GetDep** - gets NPM dependencies
 * **CleanDep** - cleans packages with NPM dependencies
 * **RestoreDep** - downloads NPM dependencies 
 * **UpdateDep** - updates dependency to specified version
-* **Publish** - publishes NPM package
+* **Publish** - publishes NPM package to global repository
+
+NPM configuration variables:
+* **Package** - Turns on NPM tasks (must be 'npm')
 
 ### Bower package management tasks
 
-**Bower** tasks turned on by variable **$Package = 'bower'**.
 Bower package definition is defined by **bower.json** file in the root folder of the component.
+
+Bower tasks:
 * **GetVersion** - gets version of Bower project
 * **SetVersion** - sets version of Bower project
 * **GetDep** - gets Bower dependencies
@@ -25,31 +30,44 @@ Bower package definition is defined by **bower.json** file in the root folder of
 * **RestoreDep** - downloads Bower dependencies
 * **UpdateDep** - updates dependency to specified version
 
+Bower configuration variables:
+* **Package** - Turns on Bower tasks (must be 'bower')
+
 ### Guil build and run tasks
 
-**Gulp** tasks turned on by variable **$Build = 'gulp'** and **$Run = 'gulp'**.
 Gulp tasks are defined in **gulpfile.js** file in the root folder of the component.
+
+Gulp tasks:
 * **Clean** - cleans projects with Gulp (gulp clean)
 * **Build** - builds projects  with Gulp (gulp clean)
 * **Rebuild** - rebuilds projects with Gulp (gulp rebuild)
 * **Watch** - watches for changes in projects and builds them with Gulp (gulp watch)
 * **Start** - runs projects with Gulp (gulp launch)
 
+Gulp configuration variables:
+* **Build** - Turns on Gulp build tasks (must be 'gulp')
+* **Run** - Turns on Gulp runt tasks (must be 'gulp')
+
 ### Typescript build tasks
 
-**Typescript** tasks turned on by variable **$Build = 'typescript'**.
 Typescript compiler configuration it defined by **tsconfig.json** file in the root folder of the component.
+
+Typescript tasks:
 * **Clean** - cleans projects with Typscript (output path defined in tsconfig.json)
 * **Build** - builds projects  with Typescript (tsc)
 * **Rebuild** - rebuilds projects with Typescript (combination of Clean and Build)
 * **Watch** - watches for changes in projects and builds them with Typescript (tsc --watch)
 
+Typescript configuration variables:
+* **Build** - Turns on Typescript tasks (must be 'typescript')
+
 ### Mocha test tasks
 
-**Mocha** tasks turned on by variable **$Test = 'mocha'**.
+Mocha tasks:
 * **Test** - runs Mocha tests
 
-Mocha build tasks support the following configuration variables:
+Mocha configuration variables:
+* **Test** - Turns on Mocha tasks (must be 'mocha')
 * **TestInclude** - Folder or list of folders there Mocha tests are located
 * **TestStyle** - Mocha test style: tdd or bdd
 * **TestTimeout** - Timeout in milliseconds for each test to complete (default: 10000)
