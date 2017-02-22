@@ -222,8 +222,8 @@ PS> Install-NpmDependencies -Path .
     {
         Invoke-At $Path {
             Invoke-External { 
-                & npm install
-            } "Failed to install npm dependencies"
+                & npm update
+            } "Failed to update npm dependencies"
         }
     }
     end {}
