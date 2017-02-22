@@ -86,7 +86,7 @@ PS> Get-NpmVersion -Path .
             {
                 $pkg = Get-Content -Path package.json | ConvertFrom-Json
                 $pkg.version = $Version
-                $pkg | ConvertTo-Json | Set-Content -Path package.json2
+                $pkg | ConvertTo-Json | Set-Content -Path package.json
             }
         }
     }
