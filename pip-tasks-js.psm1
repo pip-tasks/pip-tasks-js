@@ -1,6 +1,6 @@
 ########################################################
 ##
-## pip-tasks-js-ps.psm1
+## pip-tasks-js.psm1
 ## Pip.Tasks.JS - Javascript and Node.js build tasks for Pip.Tasks
 ## Startup module
 ##

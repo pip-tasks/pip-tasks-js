@@ -1,6 +1,6 @@
 ########################################################
 ##
-## pip-tasks-js-ps.psd1
+## pip-tasks-js.psd1
 ## Pip.Tasks.JS - Javascript and Node.js build tasks for Pip.Tasks
 ## Module definition
 ##
@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest
-ModuleToProcess = 'pip-tasks-js-ps.psm1'
+ModuleToProcess = 'pip-tasks-js.psm1'
 
 # Version number of this module.
 ModuleVersion = '1.0.0.0'
@@ -48,7 +48,7 @@ CLRVersion = ''
 ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules = @('pip-tasks-ps')
+RequiredModules = @('pip-tasks')
 
 # Assemblies that must be loaded prior to importing this module
 RequiredAssemblies = @()
@@ -81,7 +81,7 @@ AliasesToExport = '*'
 ModuleList = @()
 
 # List of all files packaged with this module
-FileList = @('pip-tasks-js-ps.psm1')
+FileList = @('pip-tasks-js.psm1')
 
 # Private data to pass to the module specified in ModuleToProcess
 PrivateData = ''
