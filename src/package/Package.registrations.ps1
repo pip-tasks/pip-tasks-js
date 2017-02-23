@@ -9,7 +9,7 @@
 $npmtasks = "$PSScriptRoot/Npm.tasks.ps1"
 
 # Registrations for imperative tasks
-Register-ImperativeInclude -CallFile $npmtasks -Component
+Register-ImperativeInclude -CallFile $npmtasks -Component -Workspace
 
 # Registrations for declarative tasks
 Register-DeclarativeTask -Task GetVersion -Variable Package -Value npm -CallFile $npmtasks -CallTask NpmGetVersion -Component
@@ -24,7 +24,7 @@ Register-DeclarativeTask -Task Publish -Variable Package -Value npm -CallFile $n
 $bwtasks = "$PSScriptRoot/Bower.tasks.ps1"
 
 # Registrations for imperative tasks
-Register-ImperativeInclude -CallFile $bwtasks -Component
+Register-ImperativeInclude -CallFile $bwtasks -Component -Workspace
 
 # Registrations for declarative tasks
 Register-DeclarativeTask -Task GetVersion -Variable Package -Value bower -CallFile $bwtasks -CallTask BowerGetVersion -Component
