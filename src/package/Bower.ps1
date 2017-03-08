@@ -86,7 +86,7 @@ PS> Get-BowerVersion -Path .
             {
                 $pkg = Get-Content -Path bower.json | ConvertFrom-Json
                 $pkg.version = $Version
-                $pkg | ConvertTo-Json | Set-Content -Path bower.json2
+                $pkg | ConvertTo-Json | Set-Content -Path bower.json
             }
         }
     }
