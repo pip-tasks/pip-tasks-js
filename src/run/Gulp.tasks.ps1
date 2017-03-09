@@ -6,6 +6,9 @@
 ##
 #######################################################
 
+# Set correct path when invoked from other scripts
+$BuildRoot = $BuildPath
+
 # Synopsis: Starts Gulp project
 task GulpStart {
     Start-Gulp -Path .

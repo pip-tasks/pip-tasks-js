@@ -38,7 +38,7 @@ PS> Start-Gulp -Path .
         Invoke-At $Path {
             Invoke-External { 
                 & gulp launch
-            } "Project launch with Gulp failed"
+            } "Build project with Gulp failed"
         }
     }
     end {}

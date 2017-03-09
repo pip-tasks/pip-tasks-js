@@ -1,8 +1,8 @@
 ########################################################
 ##
-## Build.registrations.ps1
+## Run.registrations.ps1
 ## Pip.Tasks.JS - Javascript and Node.js build tasks for Pip.Tasks
-## Registrations for ruin tasks 
+## Registrations for run tasks 
 ##
 #######################################################
 
