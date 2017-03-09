@@ -46,5 +46,5 @@ task NpmCleanDep {
 
 # Synopsis: Publishes Npm package
 task NpmPublish {
-    Publish-Npm -Path . -NoLogin $NoLogin
+    Publish-Npm -Path . -Login $Login
 }

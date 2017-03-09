@@ -340,13 +340,13 @@ PS> Publish-Npm -Path .
         [Parameter(Mandatory=$false, Position=0, ValueFromPipelineByPropertyName=$true)]
         [string] $Path = '.',
         [Parameter(Mandatory=$false, Position=1, ValueFromPipelineByPropertyName=$true)]
-        [bool] $NoLogin = $false
+        [bool] $Login = $true
     )
     begin {}
     process 
     {
         Invoke-At $Path {
-            if (-not $NoLogin) 
+            if ($Login) 
             {
                 Invoke-External { 
                     & npm login
