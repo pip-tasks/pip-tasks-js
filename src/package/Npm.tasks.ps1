@@ -46,5 +46,7 @@ task NpmCleanDep {
 
 # Synopsis: Publishes Npm package
 task NpmPublish {
+    if ($Login -eq $null) { $Login = $true }
+
     Publish-Npm -Path . -Login $Login
 }
